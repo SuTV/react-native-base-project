@@ -1,0 +1,116 @@
+{
+  "name": "socialStalker",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "npm run test-unit && npm run test-e2e",
+    "test:e2e": "detox build && jest __e2e__",
+    "test:unit": "jest __unit__",
+    "test:unit:common": "jest .*/spec.js",
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "codepush-key": "code-push deployment ls drumkit -k",
+    "adb-reverse": "adb reverse tcp:8081 tcp:8081",
+    "adb-forward": "adb forward tcp:8083 tcp:8083",
+    "ios-dev": "react-native run-ios --simulator='iPhone X'",
+    "ios-codepush-staging": "code-push release-react drumkit ios",
+    "ios-codepush-production": "code-push release-react drumkit ios -d Production",
+    "ios-bundle": "react-native bundle --dev false --entry-file index.ios.js --bundle-output ios/main.jsbundle --platform ios",
+    "ios-build": "react-native run-ios --configuration Release",
+    "android-codepush-staging": "code-push release-react drumkit android",
+    "android-codepush-production": "code-push release-react drumkit android -d Production",
+    "android-clean": "cd android && ./gradlew clean",
+    "android-build-debug": "cd android/ && ./gradlew assembleDebug",
+    "android-signkey": "keytool -genkey -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000",
+    "android-release": "cd android && ./gradlew assembleRelease",
+    "android-signer": "cd android/app/build/outputs/apk/ && jarsigner -verbose -keystore ~/.android/debug.keystore -storepass android -keypass android app-release-unsigned.apk androiddebugkey",
+    "android-dev": "adb uninstall com.github.sutv.socialstalker && react-native run-android && adb reverse tcp:8081 tcp:8081 && react-native start",
+    "android-bundle": "react-native bundle --platform android --dev false --entry-file ./index.android.js --bundle-output ./android/app/src/main/assets/index.android.bundle --sourcemap-output ./android/app/src/main/assets/index.android.map --assets-dest ./android/app/src/main/res/"
+  },
+  "bin": {
+    "plop": "plop"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "i18n-js": "^3.0.1",
+    "inquirer-recursive": "0.0.5",
+    "moment": "^2.19.2",
+    "react": "16.0.0-alpha.6",
+    "react-native": "0.44.3",
+    "react-native-animatable": "^1.2.4",
+    "react-native-code-push": "^2.1.1-beta",
+    "react-native-dotenv": "^0.1.0",
+    "react-native-elements": "^0.18.4",
+    "react-native-exception-handler": "^2.4.3",
+    "react-native-fbsdk": "^0.6.3",
+    "react-native-google-analytics-bridge": "^5.3.3",
+    "react-native-i18n": "^2.0.6",
+    "react-native-indicator": "^0.7.0",
+    "react-native-restart": "0.0.6",
+    "react-native-uuid": "^1.4.9",
+    "react-native-vector-icons": "^4.4.2",
+    "react-navigation": "^1.0.0-beta.13",
+    "react-redux": "^5.0.6",
+    "realm": "^2.0.4",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "string-format": "^0.5.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "babel-jest": "^20.0.3",
+    "babel-preset-react-native": "3.0.1",
+    "detox": "^5.8.1",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.1",
+    "eslint": "^3.19.0",
+    "eslint-config-prettier": "^2.6.0",
+    "eslint-import-resolver-node": "^0.3.1",
+    "eslint-loader": "^1.8.0",
+    "eslint-plugin-jest": "^20.0.3",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-react": "^7.4.0",
+    "eslint-plugin-react-native": "^3.1.0",
+    "jest": "20.0.4",
+    "jest-cli": "^20.0.4",
+    "plop": "^1.9.0",
+    "prettier": "^1.7.4",
+    "react-dom": "^16.0.0",
+    "react-test-renderer": "^16.0.0",
+    "redux-mock-store": "^1.3.0",
+    "sinon": "^3.3.0"
+  },
+  "jest": {
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    },
+    "collectCoverage": true,
+    "coverageDirectory": "__tests__/__coverage__",
+    "verbose": true,
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-navigation)"
+    ],
+    "setupFiles": [
+      "./__tests__/__config__/setup.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/__config__/",
+      "/__tests__/__coverage__",
+      "plop-templates"
+    ]
+  },
+  "detox": {
+    "runner": "jest",
+    "configurations": {
+      "ios.sim.debug": {
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/socialStalker.app",
+        "build": "xcodebuild -project ios/socialStalker.xcodeproj -scheme kama -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "name": "iPhone 7"
+      }
+    }
+  }
+}
