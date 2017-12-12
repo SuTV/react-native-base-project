@@ -2,7 +2,7 @@
 Base react native application for scalable projects using Redux + React Navigation + Code Push + Realm + Axios + i18n + Google Analytics + Facebook login with fbsdk...
 
 ## App architecture diagram
-Updating...
+<img src="screenshots/diagram.png" width="100%">
 
 ## App folder
 <img src="screenshots/folders.png" width="20%">
