@@ -1,5 +1,5 @@
 import Realm from 'realm';
-import { UserSchema } from '../realm-schemas';
+import { UserSchema } from '../schemas';
 import BaseRepository from '../base'
 import User from '../../models/user'
 import StringUtil from '../../../utils/string-util'
