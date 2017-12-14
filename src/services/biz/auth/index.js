@@ -87,7 +87,7 @@ export default class AuthService {
                 }
 
                 if(type == AccountTypes.FACEBOOK) {
-                    // FbService.logOut();
+                    FbService.logOut();
                 }
 
                 cb(null, {tracker: tracker});
