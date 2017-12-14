@@ -65,7 +65,7 @@ class Main extends Component {
   }
 
   componentDidMount() {
-    this.props.navigation.setParams({type: this.props.appStore.userInfo.type, userName: this.props.getUserName(this.props.appStore.userInfo), moveToAdd: this.props.moveToAdd, openMenu: this.props.openMenu, shortUserNameTitle: this.props.getShortUserNameTitle(this.props.appStore.userInfo), userProfilePicture: this.props.getUserProfilePicture(this.props.appStore.userInfo)});
+    this.props.navigation.setParams({type: this.props.appStore.userInfo.type, userName: this.props.getUserName(this.props.appStore), moveToAdd: this.props.moveToAdd, openMenu: this.props.openMenu, shortUserNameTitle: this.props.getShortUserNameTitle(this.props.appStore), userProfilePicture: this.props.getUserProfilePicture(this.props.appStore)});
   }
 
   render() {
@@ -89,8 +89,8 @@ export default connect(
     moveToAdd: () => dispatch(moveToAdd()),
     moveToSettings: () => dispatch(moveToSettings()),
     moveToLogin: () => dispatch(moveToLogin()),
-    getShortUserNameTitle: (userInfo) => getShortUserNameTitle(userInfo),
-    getUserName: (userInfo) => getUserName(userInfo),
-    getUserProfilePicture: (userInfo) => getUserProfilePicture(userInfo)
+    getShortUserNameTitle: (appStore) => getShortUserNameTitle(appStore),
+    getUserName: (appStore) => getUserName(appStore),
+    getUserProfilePicture: (appStore) => getUserProfilePicture(appStore)
   })
 )(Main)

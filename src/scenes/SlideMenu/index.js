@@ -13,14 +13,14 @@ class SlideMenu extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Image source={{uri: this.props.appStore.userInfo ? this.props.getUserCoverPicture(this.props.appStore.userInfo) : null}} style={styles.backgroundImage}>
+          <Image source={{uri: this.props.appStore.userInfo ? this.props.getUserCoverPicture(this.props.appStore) : null}} style={styles.backgroundImage}>
             <View style={styles.avatar}>
               <Avatar
                 width={55}
                 height={55}
                 icon={{name: 'person'}}
-                title={this.props.appStore.userInfo ? this.props.getShortUserNameTitle(this.props.appStore.userInfo) : null}
-                source={{uri: this.props.appStore.userInfo ? this.props.getUserProfilePicture(this.props.appStore.userInfo) : null}}
+                title={this.props.appStore.userInfo ? this.props.getShortUserNameTitle(this.props.appStore) : null}
+                source={{uri: this.props.appStore.userInfo ? this.props.getUserProfilePicture(this.props.appStore) : null}}
                 activeOpacity={0.7}
               />
             </View>
@@ -129,7 +129,7 @@ class SlideMenu extends Component {
               type='facebook'
               iconSize={20}
               style={styles.socialButtonFull}
-              onPress={() => this.props.logOut(this.props.appStore.tracker, this.props.appStore.userInfo.type)}
+              onPress={() => this.props.logOut(this.props.appStore, this.props.appStore.userInfo.type)}
             />
             {/* <SocialIcon
               title={I18n.t('menu.insta_log_out')}
@@ -148,10 +148,10 @@ export default connect(
     appStore: state.appStore
   }),
   dispatch => ({
-    getShortUserNameTitle: (userInfo) => getShortUserNameTitle(userInfo),
-    getUserName: (userInfo) => getUserName(userInfo),
-    getUserProfilePicture: (userInfo) => getUserProfilePicture(userInfo),
-    getUserCoverPicture: (userInfo) => getUserCoverPicture(userInfo),
-    logOut: (tracker, type) => dispatch(logOut(tracker, type)),
+    getShortUserNameTitle: (appStore) => getShortUserNameTitle(appStore),
+    getUserName: (appStore) => getUserName(appStore),
+    getUserProfilePicture: (appStore) => getUserProfilePicture(appStore),
+    getUserCoverPicture: (appStore) => getUserCoverPicture(appStore),
+    logOut: (appStore, type) => dispatch(logOut(appStore, type)),
   })
 )(SlideMenu)

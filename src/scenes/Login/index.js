@@ -27,7 +27,7 @@ export class Login extends Component {
             button
             type='facebook'
             loading={this.props.data.type == AccountTypes.FACEBOOK && this.props.data.isFetching}
-            onPress={() => this.props.logIn(this.props.appStore.tracker, AccountTypes.FACEBOOK)}
+            onPress={() => this.props.logIn(this.props.appStore, AccountTypes.FACEBOOK)}
           />
           <SocialIcon
             title={ I18n.t('login.login_instagram') }
@@ -48,6 +48,6 @@ export default connect(
     appStore: state.appStore
   }),
   dispatch => ({
-    logIn: (tracker, type) => dispatch(logIn(tracker, type)),
+    logIn: (appStore, type) => dispatch(logIn(appStore, type)),
   })
 )(Login)

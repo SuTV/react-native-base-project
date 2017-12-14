@@ -1,7 +1,10 @@
 import { AccountTypes } from '../accounts'
 
-let UserService = {
-    getShortUserNameTitle: function(userInfo) {
+export default class UserService {
+    constructor(realm) {
+    }
+
+    getShortUserNameTitle = function(userInfo) {
         if(userInfo.type == AccountTypes.FACEBOOK) {
             let user = JSON.parse(userInfo.userInfoInString);
             
@@ -9,8 +12,9 @@ let UserService = {
         } else {
             return '';
         }
-    },
-    getUserName: function(userInfo) {
+    }
+
+    getUserName = function(userInfo) {
         if(userInfo.type == AccountTypes.FACEBOOK) {
             let user = JSON.parse(userInfo.userInfoInString);
             
@@ -18,8 +22,9 @@ let UserService = {
         } else {
             return '';
         }
-    },
-    getUserProfilePicture: function(userInfo) {
+    }
+
+    getUserProfilePicture = function(userInfo) {
         if(userInfo.type == AccountTypes.FACEBOOK) {
             let user = JSON.parse(userInfo.userInfoInString);
 
@@ -27,8 +32,9 @@ let UserService = {
         } else {
             return '';
         }
-    },
-    getUserCoverPicture: function(userInfo) {
+    }
+    
+    getUserCoverPicture = function(userInfo) {
         if(userInfo.type == AccountTypes.FACEBOOK) {
             let user = JSON.parse(userInfo.userInfoInString);
 
@@ -38,5 +44,3 @@ let UserService = {
         }
     }
 }
-
-module.exports = UserService;

@@ -32,6 +32,13 @@ export const updateTracker = (tracker) => {
       userInfo: userInfo
     }
   }
+
+  export const setRealm = (realm) => {
+    return {
+      type: AppActions.APP_REALM,
+      value: realm,
+    }
+  }
   
   export const moveToMain = () => {
     return {
@@ -47,18 +54,26 @@ export const updateTracker = (tracker) => {
     }
   }
 
-  export const getShortUserNameTitle = (userInfo) => {
-    return UserService.getShortUserNameTitle(userInfo);
+  export const getShortUserNameTitle = (appStore) => {
+    let userService = appStore.serviceFactory.getService(UserService.name);
+
+    return userService.getShortUserNameTitle(appStore.userInfo);
   }
   
-  export const getUserName = (userInfo) => {
-    return UserService.getUserName(userInfo);
+  export const getUserName = (appStore) => {
+    let userService = appStore.serviceFactory.getService(UserService.name);
+
+    return userService.getUserName(appStore.userInfo);
   }
   
-  export const getUserProfilePicture = (userInfo) => {
-    return UserService.getUserProfilePicture(userInfo);
+  export const getUserProfilePicture = (appStore) => {
+    let userService = appStore.serviceFactory.getService(UserService.name);
+
+    return userService.getUserProfilePicture(appStore.userInfo);
   }
 
-  export const getUserCoverPicture = (userInfo) => {
-    return UserService.getUserCoverPicture(userInfo);
+  export const getUserCoverPicture = (appStore) => {
+    let userService = appStore.serviceFactory.getService(UserService.name);
+
+    return userService.getUserCoverPicture(appStore.userInfo);
   }

@@ -29,7 +29,7 @@ class Splash extends Component {
     );
 
     // load user info
-    this.props.load(this.props.appStore.tracker);
+    this.props.load(this.props.appStore);
 
     // track screen view
     this.props.appStore.tracker.trackScreenView(this.constructor.name);
@@ -98,6 +98,6 @@ export default connect(
     appStore: state.appStore
   }),
   dispatch => ({
-    load: (tracker) => dispatch(loadUser(tracker)),
+    load: (appStore) => dispatch(loadUser(appStore)),
   })
 )(Splash)

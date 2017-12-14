@@ -6,10 +6,12 @@ import StringUtil from '../../../utils/string-util'
 import FbService from '../../facebook'
 import { AccountTypes } from '../accounts'
 
-let _userRepository = UserRepository;
+export default class AuthService {
+    constructor(realm) {
+        this._userRepository = new UserRepository(realm);
+    }
 
-let AuthService = {
-    logIn: function(tracker, type, cb) {
+    logIn = function(tracker, type, cb) {
         if(type == AccountTypes.FACEBOOK) {
             FbService.logIn((error, result) => {
                 if(error) { 
@@ -37,9 +39,9 @@ let AuthService = {
 
             cb(null, {tracker: tracker, accessToken: null, userInfo: null});
         }
-    },
+    }
 
-    getCurrentLoggedInUser: function(tracker, type, cb) {
+    getCurrentLoggedInUser = function(tracker, type, cb) {
         if(type == AccountTypes.FACEBOOK) {
             FbService.getUserInfo((err, accessToken, userInfo) => {
                 if(err) { 
@@ -74,24 +76,27 @@ let AuthService = {
 
             cb(null, {tracker: tracker, accessToken: null, userInfo: null});
         }
-    },
+    }
 
-    logOut: function(tracker, type, cb) {
-        this.clearUser((error) => {
-            if(tracker) {
-                tracker.setUser(GA_UNKNOWN_USER);
+    logOut = function(tracker, type, userId, cb) {
+        this.deleteUser(type, userId, (error) => {
+            if(error) { cb(error, {tracker: tracker}); }
+            else {
+                if(tracker) {
+                    tracker.setUser(GA_UNKNOWN_USER);
+                }
+
+                if(type == AccountTypes.FACEBOOK) {
+                    // FbService.logOut();
+                }
+
+                cb(null, {tracker: tracker});
             }
-
-            if(type == AccountTypes.FACEBOOK) {
-                FbService.logOut();
-            }
-
-            cb(null, {tracker: tracker});
         });
-    },
+    }
 
-    loadLoggedInUser: function(tracker, cb) {
-        _userRepository.getDefaultUser((error, data) => {
+    loadLoggedInUser = function(tracker, cb) {
+        this._userRepository.getDefaultUser((error, data) => {
             if(error) { cb(error); }
             else {
                 if(data != null) {
@@ -105,26 +110,24 @@ let AuthService = {
                 }
             }
         });
-    },
+    }
 
-    saveFbUser: function(userId, userInfoInString, cb) {
-        return _userRepository.getByTypeAndId(AccountTypes.FACEBOOK, userId,  (error, data) => {
+    saveFbUser = function(userId, userInfoInString, cb) {
+        return this._userRepository.getByTypeAndId(AccountTypes.FACEBOOK, userId,  (error, data) => {
             if(error) { cb(error); }
             else {
                 if(data && data.id != undefined) {
                     // update
-                    _userRepository.update(AccountTypes.FACEBOOK, userId, new User(data.id, data.type, data.userId, userInfoInString, data.isActive), cb);
+                    this._userRepository.update(AccountTypes.FACEBOOK, userId, new User(data.id, data.type, data.userId, userInfoInString, true), cb);
                 } else {
                     // create
-                    _userRepository.create(new User(StringUtil.guid(), AccountTypes.FACEBOOK, userId, userInfoInString, true), cb);
+                    this._userRepository.create(new User(StringUtil.guid(), AccountTypes.FACEBOOK, userId, userInfoInString, true), cb);
                 }
             }
         });
-    },
-
-    clearUser: function(cb) {
-        return _userRepository.deleteAll(cb);
     }
-};
-  
-module.exports = AuthService;
+
+    deleteUser = function(type, userId, cb) {
+        return this._userRepository.deleteUser(type, userId, cb);
+    }
+}

@@ -1,10 +1,13 @@
 import { getGATracker } from '../services/google-analytics'
 import { AppActions } from './actions'
+import ServiceFactory from '../services/factory';
 
 const initialState = {
     tracker: getGATracker(),
     accessToken: null,
-    userInfo: null
+    userInfo: null,
+    realm: null,
+    serviceFactory: null
   }
 
 export default (state = initialState, action) => {
@@ -34,6 +37,11 @@ export default (state = initialState, action) => {
           userInfo: action.userInfo
         });
       }
+    case AppActions.APP_REALM:
+      return Object.assign({}, state, {
+        realm: action.value,
+        serviceFactory: new ServiceFactory(action.value)
+      });
     default:
       return state;
   }

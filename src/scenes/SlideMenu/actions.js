@@ -1,24 +1,14 @@
 import AuthService from '../../services/biz/auth'
-import { setAppStore, moveToLogin } from '../Base/actions'
+import { setAppStore, setUserInfo, moveToLogin } from '../Base/actions'
 
-const DEFAULT_ACTION = 'DEFAULT_ACTION'
-
-export const actions = {
-  DEFAULT_ACTION,
-}
-
-export const defaultAction = () => {
-  return async dispatch => {
-    dispatch({
-      type: DEFAULT_ACTION,
-      value: [],
-    })
-  }
-}
-
-export const logOut = (tracker, type) => {
+export const logOut = (appStore, type) => {
   return (dispatch) => {
-    AuthService.logOut(tracker, type, (error, data) => {
+    let authService = appStore.serviceFactory.getService(AuthService.name);
+
+    // set user info to avoid realm crash
+    dispatch(setUserInfo(null));
+
+    authService.logOut(appStore.tracker, type, appStore.userInfo.userId, (error, data) => {
       // set app store
       dispatch(setAppStore(data.tracker, null, null));
       

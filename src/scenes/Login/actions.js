@@ -35,11 +35,13 @@ export function loginFailure(error) {
   }
 }
 
-export function logIn(tracker, type) {
+export function logIn(appStore, type) {
   return (dispatch) => {
     dispatch(loginRequest(type));
 
-    AuthService.logIn(tracker, type, (error, data, isCancelled) => {
+    let authService = appStore.serviceFactory.getService(AuthService.name);
+
+    authService.logIn(appStore.tracker, type, (error, data, isCancelled) => {
       if(error) {
         dispatch(loginFailure(error.message));
       } else {
