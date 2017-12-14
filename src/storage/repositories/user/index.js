@@ -60,8 +60,6 @@ export default class UserRepository extends BaseRepository {
                 this._realm.write(() => {
                     this._realm.delete(item);
                 });
-            } else {
-                alert('NULL');
             }
 
             return cb(null);
